@@ -21,6 +21,4 @@ use App\Http\Controllers\AuthController;
 //     Route::get('/test', [Test::class, 'tester']);
 // });
 
-Route::post('/test', [UserController::class, 'store']);
-
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/user/register', [UserController::class, 'store']);
