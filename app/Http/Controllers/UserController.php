@@ -28,7 +28,7 @@ class UserController extends Controller
         $user = new User;
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->birth_date = $request->birth_date;
+        $user->birth_date = date("Y-m-d", strtotime($request->birth_date));
         $user->phone_number = $request->phone_number;
         $user->password = Hash::make($request->password);
         $user->save();
