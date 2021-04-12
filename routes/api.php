@@ -20,5 +20,10 @@ use App\Http\Controllers\AuthController;
 // Route::group(['middleware' => 'auth:sanctum'], function() {
 //     Route::get('/test', [Test::class, 'tester']);
 // });
-
 Route::post('/user/register', [UserController::class, 'store']);
+Route::post('/user/login', [AuthController::class, 'login']);
+
+Route::group(['middleware' => 'auth:sanctum'], function() {
+    
+    Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
+});

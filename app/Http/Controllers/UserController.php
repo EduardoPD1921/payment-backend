@@ -35,4 +35,8 @@ class UserController extends Controller
 
         return response('user-created', 201);
     }
+
+    public function getUserInfo(Request $request) {
+        return $request->user();
+    }
 }
