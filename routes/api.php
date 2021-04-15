@@ -26,6 +26,5 @@ Route::post('/user/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
     
     Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
+    Route::post('/user/test', [UserController::class, 'updateProfileImage']);
 });
-
-Route::post('/user/test', [UserController::class, 'updateProfileImage']);

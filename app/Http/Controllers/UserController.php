@@ -58,6 +58,9 @@ class UserController extends Controller
 
         $imageLink = data_get(response()->json(json_decode(($response->getBody()->getContents())))->getData(), 'data.link');
 
-        return $imageLink;
+        $user = $request->user();
+
+        $user->image = $imageLink;
+        $user->save();
     }
 }
