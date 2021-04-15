@@ -39,4 +39,25 @@ class UserController extends Controller
     public function getUserInfo(Request $request) {
         return $request->user();
     }
+
+    public function updateProfileImage(Request $request) {
+        $file = $request->file('image');
+        $file_path = $file->getPath();
+
+        $client = new \GuzzleHttp\Client();
+
+        $response = $client->request('POST', 'https://api.imgur.com/3/image', [
+            'headers' => [
+                'authorization' => 'Client-ID ' . '28589de386dc032',
+                'content-type' => 'application/x-www-form-urlencoded'
+            ],
+            'form_params' => [
+                'image' => base64_encode(file_get_contents($request->file('image')->path($file_path)))
+            ]
+        ]);
+
+        $imageLink = data_get(response()->json(json_decode(($response->getBody()->getContents())))->getData(), 'data.link');
+
+        return $imageLink;
+    }
 }
