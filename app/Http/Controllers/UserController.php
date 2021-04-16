@@ -63,4 +63,42 @@ class UserController extends Controller
         $user->image = $imageLink;
         $user->save();
     }
+
+    public function update(Request $request) {
+        $data = $request->all();
+
+        $validator = Validator::make($data, [
+            'name' => 'required|string',
+            'phone_number' => 'required|string',
+            'birth_date' => 'required|date_format:d/m/Y'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+
+            return response($error, 400);
+        }
+
+        $user = $request->user();
+
+        if ($user->phone_number !== $request->phone_number) {
+            $checkPhoneNumber = User::where('phone_number', $request->phone_number)->first();
+
+            if ($checkPhoneNumber) {
+                return response([
+                    'message' => 'phone-number-has-already-been-taken'
+                ], 400);
+            }
+
+            $user->phone_number = $request->phone_number;
+        }
+
+        $user->name = $request->name;
+        $user->birth_date = date("Y-d-m", strtotime($request->birth_date));
+        $user->save();
+
+        return response([
+            'message' => 'changes-updated'
+        ], 200);
+    }
 }
