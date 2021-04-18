@@ -29,3 +29,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::post('/user/update', [UserController::class, 'update']);
     Route::post('/user/test', [UserController::class, 'updateProfileImage']);
 });
+
+// Rotas para teste
+Route::get('/test', [UserController::class, 'test']);

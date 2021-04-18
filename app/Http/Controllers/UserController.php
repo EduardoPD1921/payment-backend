@@ -12,11 +12,11 @@ class UserController extends Controller
 {
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string',
+            'name' => 'required|string|min:5|max:30',
             'email' => 'required|email|unique:users',
-            'phone_number' => 'required|unique:users',
+            'phone_number' => 'required|min:11|unique:users',
             'birth_date' => 'required|date_format:d/m/Y',
-            'password' => 'required|string'
+            'password' => 'required|string|min:10'
         ]);
 
         if ($validator->fails()) {
@@ -41,11 +41,9 @@ class UserController extends Controller
     }
 
     public function update(Request $request) {
-        $data = $request->all();
-
-        $validator = Validator::make($data, [
-            'name' => 'required|string',
-            'phone_number' => 'required|string',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|min:5|max:30',
+            'phone_number' => 'required|string|min:11',
             'birth_date' => 'required|date_format:d/m/Y',
             'image' => 'sometimes|nullable'
         ]);
@@ -98,5 +96,19 @@ class UserController extends Controller
         return response([
             'message' => 'changes-updated'
         ], 200);
+    }
+
+    public function test(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'test' => 'required|string|min:3|max:10'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+
+            return $error;
+        }
+
+        return 'deu bom';
     }
 }
