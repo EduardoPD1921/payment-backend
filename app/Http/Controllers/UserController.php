@@ -98,17 +98,67 @@ class UserController extends Controller
         ], 200);
     }
 
-    public function test(Request $request) {
+    public function emailUpdate(Request $request) {
         $validator = Validator::make($request->all(), [
-            'test' => 'required|string|min:3|max:10'
+            'oldEmail' => 'required|email',
+            'newEmail' => 'required|email'
         ]);
 
         if ($validator->fails()) {
             $error = $validator->errors();
 
-            return $error;
+            return response($error, 400);
         }
 
-        return 'deu bom';
+        $checkUniqueEmail = User::where('email', $request->newEmail)->first();
+
+        if ($checkUniqueEmail) {
+            return response([
+                'message' => 'email-already-in-use'
+            ], 400);
+        }
+
+        $user = $request->user();
+
+        if ($request->oldEmail === $user->email) {
+            $user->email = $request->newEmail;
+            $user->save();
+
+            return response([
+                'message' => 'email-updated'
+            ], 200);
+        }
+
+        return response([
+            'message' => 'wrong-old-email'
+        ], 400);
+    }
+
+    public function passwordUpdate(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'oldPassword' => 'required|string',
+            'newPassword' => 'required|string|min:10'
+        ]);
+
+        if ($validator->fails()) {
+            $error = $validator->errors();
+
+            return response($error, 400);
+        }
+
+        $user = $request->user();
+
+        if (Hash::check($request->oldPassword, $user->password)) {
+            $user->password = Hash::make($request->newPassword);
+            $user->save();
+
+            return response([
+                'message' => 'password-updated'
+            ], 200);
+        }
+
+        return response([
+            'message' => 'wrong-old-password'
+        ], 400);
     }
 }

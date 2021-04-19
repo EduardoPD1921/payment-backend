@@ -27,8 +27,6 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     
     Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
     Route::post('/user/update', [UserController::class, 'update']);
-    Route::post('/user/test', [UserController::class, 'updateProfileImage']);
+    Route::post('/user/emailUpdate', [UserController::class, 'emailUpdate']);
+    Route::post('/user/passwordUpdate', [UserController::class, 'passwordUpdate']);
 });
-
-// Rotas para teste
-Route::get('/test', [UserController::class, 'test']);
