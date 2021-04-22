@@ -40,6 +40,10 @@ class UserController extends Controller
         return $request->user();
     }
 
+    public function getUserAvatar(Request $request) {
+        return $request->user()->image;
+    }
+
     public function update(Request $request) {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|min:5|max:30',
