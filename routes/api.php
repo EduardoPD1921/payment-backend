@@ -26,7 +26,6 @@ Route::post('/user/login', [AuthController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
     
     Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
-    Route::get('/user/getAvatar', [UserController::class, 'getUserAvatar']);
     Route::post('/user/update', [UserController::class, 'update']);
     Route::post('/user/emailUpdate', [UserController::class, 'emailUpdate']);
     Route::post('/user/passwordUpdate', [UserController::class, 'passwordUpdate']);
