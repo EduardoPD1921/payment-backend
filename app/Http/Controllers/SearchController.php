@@ -28,4 +28,12 @@ class SearchController extends Controller
 
         return [];
     }
+
+    public function returnUserSearched(Request $request) {
+        $id = $request->id;
+
+        $user = User::findOrFail($id);
+
+        return $user;
+    }
 }

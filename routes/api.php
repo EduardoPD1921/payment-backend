@@ -28,6 +28,7 @@ Route::post('/user/login', [AuthController::class, 'login']);
 
 // SearchInfo
 Route::get('/search', [SearchController::class, 'search']);
+Route::get('/searchById', [SearchController::class, 'returnUserSearched']);
 
 Route::group(['middleware' => 'auth:sanctum'], function() {
     
