@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,6 @@ use App\Http\Controllers\SearchController;
 |
 */
 
-// Route::group(['middleware' => 'auth:sanctum'], function() {
-//     Route::get('/test', [Test::class, 'tester']);
-// });
-
 // UserAuth
 Route::post('/user/register', [UserController::class, 'store']);
 Route::post('/user/login', [AuthController::class, 'login']);
@@ -30,11 +27,19 @@ Route::post('/user/login', [AuthController::class, 'login']);
 Route::get('/search', [SearchController::class, 'search']);
 Route::get('/searchById', [SearchController::class, 'returnUserSearched']);
 
+Route::post('/transaction/create', [TransactionController::class, 'store']);
+
 Route::group(['middleware' => 'auth:sanctum'], function() {
     
     // UserInfo
-    Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
-    Route::post('/user/update', [UserController::class, 'update']);
-    Route::post('/user/emailUpdate', [UserController::class, 'emailUpdate']);
-    Route::post('/user/passwordUpdate', [UserController::class, 'passwordUpdate']);
+    // Route::get('/user/getInfo', [UserController::class, 'getUserInfo']);
+    // Route::post('/user/update', [UserController::class, 'update']);
+    // Route::post('/user/emailUpdate', [UserController::class, 'emailUpdate']);
+    // Route::post('/user/passwordUpdate', [UserController::class, 'passwordUpdate']);
+    Route::group(['prefix' => 'user'], function() {
+        Route::get('/getInfo', [UserController::class, 'getUserInfo']);
+        Route::post('/update', [UserController::class, 'update']);
+        Route::post('/emailUpdate', [UserController::class, 'emailUpdate']);
+        Route::post('/passwordUpdate', [UserController::class, 'passwordUpdate']);
+    });
 });
