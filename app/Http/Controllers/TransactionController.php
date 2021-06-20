@@ -12,7 +12,6 @@ class TransactionController extends Controller
 {
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
-            'payer_id' => 'required',
             'receiver_id' => 'required',
             'amount' => 'required|numeric'
         ]);
@@ -24,6 +23,9 @@ class TransactionController extends Controller
         }
 
         try {
+            $payerUser = $request->user();
+            $request['payer_id'] = $payerUser->id;
+
             $transaction = new Transaction;
             $transaction->create($request->all());
 
