@@ -13,7 +13,7 @@ class TransactionController extends Controller
     public function store(Request $request) {
         $validator = Validator::make($request->all(), [
             'receiver_id' => 'required',
-            'amount' => 'required|numeric'
+            'amount' => 'required|numeric|gt:0'
         ]);
 
         if ($validator->fails()) {
