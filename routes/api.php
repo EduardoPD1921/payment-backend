@@ -36,5 +36,8 @@ Route::group(['middleware' => 'auth:sanctum'], function() {
     });
 
     // Transactions
-    Route::post('/transaction/create', [TransactionController::class, 'store']);
+    Route::group(['prefix' => 'transaction'], function() {
+        Route::post('/create', [TransactionController::class, 'store']);
+        Route::get('/show', [TransactionController::class, 'show']);
+    });
 });
